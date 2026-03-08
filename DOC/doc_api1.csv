@@ -1,0 +1,63 @@
+CH?C N?NG CRUD PRODUCT,,,,
+,,,,
+,,,,
+,TB_PRODUCT,,,
+,Column Name,Key,Type (g?i ý),Description
+,ID,PK,bigint,ID s?n ph?m
+,PD_CD,Unique,varchar,Mã s?n ph?m
+,PD_NM,,varchar,Tên s?n ph?m
+,STORE_ID,,varchar,Tên c?a hàng
+,QUANTITY,,int,S? l??ng
+,UNIT_CD,FK,varchar,Mã ??n v? (liên k?t TB_UNIT.UN_CD)
+,DESCRIPTION,,varchar,Mô t? s?n ph?m
+,IMG_URL,,varchar,Link ?nh s?n ph?m
+,USER_LOGIN,,varchar,Ng??i t?o / c?p nh?t
+,REQ_DT,,datetime,Ngày t?o / c?p nh?t
+,REQ_ID,,varchar,ID request / transaction
+,,,,
+,,,,
+,TB_MST_COM,,,
+,Column Name,Key,Type (g?i ý),Description
+,ID,PK,bigint,ID ??n v?
+,UN_CD,Unique,varchar,Mã ??n v?
+,UN_NM,,varchar,Tên ??n v?
+,UN_TP,,varchar,Lo?i ??n v?
+,IS_ACTIVE,,boolean,Tr?ng thái ho?t ??ng
+,DESCRIPTION,,varchar,Mô t?
+,REQ_DT,,datetime,Ngày t?o
+,REQ_ID,,varchar,ID request
+,,,,
+,TB_USER,,,
+,Column Name,Key,Type (g?i ý),Description
+,ID,PK,bigint,ID ng??i dùng
+,USER_CD,Unique,varchar,Mã ng??i dùng
+,USERNAME,Unique,varchar,Tên ??ng nh?p
+,PASSWORD,,varchar,M?t kh?u (?ã hash)
+,FULL_NAME,,varchar,H? và tên
+,EMAIL,,varchar,Email
+,PHONE,,varchar,S? ?i?n tho?i
+,ROLE_CD,,varchar,Quy?n (ADMIN / STAFF / USER)
+,IS_ACTIVE,,boolean,Tr?ng thái ho?t ??ng
+,CREATED_DT,,datetime,Ngày t?o
+,CREATED_BY,,varchar,Ng??i t?o
+,,,,
+,TB_STORE,,,
+,Column,Key,Type,Description
+,ID,PK,bigint,ID
+,STORE_CD,Unique,varchar,Mã store
+,STORE_NM,,varchar,Tên store
+,STORE_TYPE,FK,varchar,Lo?i store
+,ADDRESS,,varchar,??a ch?
+,PHONE,,varchar,S?T
+,IS_ACTIVE,,boolean,Tr?ng thái
+,CREATED_DT,,datetime,Ngày t?o
+,CREATED_BY,,varchar,Ng??i t?o
+,,,,
+,TB_USER_STORE,,,
+,Column,Key,Type,Description
+,ID,PK,bigint,ID
+,USER_CD,FK,varchar,Mã user
+,STORE_CD,FK,varchar,Mã store
+,ROLE_STORE,,varchar,Vai trò t?i store
+,CREATED_DT,,datetime,Ngày t?o
+,CREATED_BY,,varchar,Ng??i t?o
