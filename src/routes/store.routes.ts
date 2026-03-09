@@ -17,7 +17,7 @@ router.get('/search', ctrl.search);
 router.get('/:storeCode/users', authMiddleware, userStoreCtrl.getStoreUsers);
 
 // POST /api/stores - Tạo cửa hàng mới
-router.post('/', ctrl.create);
+router.post('/', authMiddleware, ctrl.create);
 
 // GET /api/stores - Lấy danh sách cửa hàng
 router.get('/', authMiddleware, ctrl.list);
@@ -26,7 +26,7 @@ router.get('/', authMiddleware, ctrl.list);
 router.get('/:id', ctrl.getOne);
 
 // PUT /api/stores/:id - Cập nhật cửa hàng
-router.put('/:id', ctrl.update);
+router.put('/:id', authMiddleware, ctrl.update);
 
 // DELETE /api/stores/:id - Xóa cửa hàng
 router.delete('/:id', ctrl.remove);

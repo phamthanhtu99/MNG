@@ -12,7 +12,14 @@ import * as service from '../services/comm.service';
  */
 export const create = async (req: Request, res: Response) => {
   try {
-    const comm = await service.createComm(req.body);
+    // Lấy thông tin user từ JWT token
+    const user = (req as any).user;
+    const commData = {
+      ...req.body,
+      REQ_ID: user?.username || null // Set REQ_ID từ USERNAME của user đăng nhập
+    };
+    
+    const comm = await service.createComm(commData);
     res.status(201).json({
       success: true,
       message: 'Tạo đơn vị thành công',
@@ -87,7 +94,14 @@ export const getOne = async (req: Request, res: Response) => {
 export const update = async (req: Request, res: Response) => {
   try {
     const id = parseInt(req.params.id);
-    const comm = await service.updateComm(id, req.body);
+    // Lấy thông tin user từ JWT token
+    const user = (req as any).user;
+    const updateData = {
+      ...req.body,
+      REQ_ID: user?.username || null // Set REQ_ID từ USERNAME của user đăng nhập
+    };
+    
+    const comm = await service.updateComm(id, updateData);
     if (!comm) {
       return res.status(404).json({ 
         success: false,

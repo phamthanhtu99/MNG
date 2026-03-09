@@ -77,7 +77,7 @@
 				"header": [
 					{
 						"key": "Authorization",
-						"value": "Bearer {{token}}"
+						"value": "Bearer {{globalToken}}"
 					}
 				],
 				"url": {

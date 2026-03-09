@@ -12,7 +12,14 @@ import * as service from '../services/store.service';
  */
 export const create = async (req: Request, res: Response) => {
   try {
-    const store = await service.createStore(req.body);
+    // Lấy thông tin user từ JWT token
+    const user = (req as any).user;
+    const storeData = {
+      ...req.body,
+      CREATED_BY: user?.username || null // Set CREATED_BY từ USERNAME của user đăng nhập
+    };
+    
+    const store = await service.createStore(storeData);
     res.status(201).json({
       success: true,
       message: 'Tạo cửa hàng thành công',
@@ -87,7 +94,14 @@ export const getOne = async (req: Request, res: Response) => {
 export const update = async (req: Request, res: Response) => {
   try {
     const id = parseInt(req.params.id);
-    const store = await service.updateStore(id, req.body);
+    // Lấy thông tin user từ JWT token
+    const user = (req as any).user;
+    const updateData = {
+      ...req.body,
+      CREATED_BY: user?.username || null // Set CREATED_BY từ USERNAME của user đăng nhập
+    };
+    
+    const store = await service.updateStore(id, updateData);
     if (!store) {
       return res.status(404).json({ 
         success: false,

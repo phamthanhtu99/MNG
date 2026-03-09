@@ -16,7 +16,7 @@ router.get('/search', ctrl.search);
 router.get('/active', ctrl.getActive);
 
 // POST /api/comms - Tạo đơn vị mới
-router.post('/', ctrl.create);
+router.post('/', authMiddleware, ctrl.create);
 
 // GET /api/comms - Lấy danh sách đơn vị
 router.get('/', authMiddleware, ctrl.list);
@@ -25,7 +25,7 @@ router.get('/', authMiddleware, ctrl.list);
 router.get('/:id', ctrl.getOne);
 
 // PUT /api/comms/:id - Cập nhật đơn vị
-router.put('/:id', ctrl.update);
+router.put('/:id', authMiddleware, ctrl.update);
 
 // DELETE /api/comms/:id - Xóa đơn vị
 router.delete('/:id', ctrl.remove);

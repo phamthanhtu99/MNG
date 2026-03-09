@@ -13,11 +13,15 @@
 					{
 						"key": "Content-Type",
 						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{globalToken}}"
 					}
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n  \"UN_CD\": \"CAI\",\n  \"UN_NM\": \"Cái\",\n  \"UN_TP\": \"UNIT\",\n  \"IS_ACTIVE\": true,\n  \"DESCRIPTION\": \"Đơn vị tính cái\",\n  \"REQ_ID\": \"REQ001\"\n}"
+					"raw": "{\n  \"UN_CD\": \"CAI\",\n  \"UN_NM\": \"Cái\",\n  \"UN_TP\": \"UNIT\",\n  \"IS_ACTIVE\": true,\n  \"DESCRIPTION\": \"Đơn vị tính cái\"\n}"
 				},
 				"url": {
 					"raw": "{{baseUrl}}/api/comms",
@@ -33,7 +37,7 @@
 				"header": [
 					{
 						"key": "Authorization",
-						"value": "Bearer {{token}}"
+						"value": "Bearer {{globalToken}}"
 					}
 				],
 				"url": {
@@ -75,6 +79,10 @@
 					{
 						"key": "Content-Type",
 						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{globalToken}}"
 					}
 				],
 				"body": {
@@ -127,6 +135,10 @@
 		{
 			"key": "token",
 			"value": "your-jwt-token-here"
+		},
+		{
+			"key": "globalToken",
+			"value": "use-global-auth-collection-to-set"
 		}
 	]
 }

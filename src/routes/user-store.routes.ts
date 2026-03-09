@@ -10,7 +10,7 @@ const router = Router();
  */
 
 // POST /api/user-stores - Gán user vào store
-router.post('/', ctrl.assignUserToStore);
+router.post('/', authMiddleware, ctrl.assignUserToStore);
 
 // GET /api/user-stores - Lấy danh sách tất cả liên kết user-store
 router.get('/', authMiddleware, ctrl.list);

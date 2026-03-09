@@ -13,7 +13,7 @@ const router = Router();
 router.get('/search', ctrl.search);
 
 // POST /api/products - Tạo sản phẩm mới
-router.post('/', ctrl.create);
+router.post('/', authMiddleware, ctrl.create);
 
 // GET /api/products - Lấy danh sách sản phẩm
 router.get('/', authMiddleware, ctrl.list);
@@ -22,7 +22,7 @@ router.get('/', authMiddleware, ctrl.list);
 router.get('/:id', ctrl.getOne);
 
 // PUT /api/products/:id - Cập nhật sản phẩm
-router.put('/:id', ctrl.update);
+router.put('/:id', authMiddleware, ctrl.update);
 
 // DELETE /api/products/:id - Xóa sản phẩm
 router.delete('/:id', ctrl.remove);

@@ -12,7 +12,15 @@ import * as service from '../services/product.service';
  */
 export const create = async (req: Request, res: Response) => {
   try {
-    const product = await service.createProduct(req.body);
+    // Lấy thông tin user từ JWT token
+    const user = (req as any).user;
+    const productData = {
+      ...req.body,
+      REQ_ID: user?.username || null, // Set REQ_ID từ USERNAME của user đăng nhập
+      USER_LOGIN: user?.username || null // Set USER_LOGIN từ USERNAME của user đăng nhập
+    };
+    
+    const product = await service.createProduct(productData);
     res.status(201).json({
       success: true,
       message: 'Tạo sản phẩm thành công',
@@ -87,7 +95,15 @@ export const getOne = async (req: Request, res: Response) => {
 export const update = async (req: Request, res: Response) => {
   try {
     const id = parseInt(req.params.id);
-    const product = await service.updateProduct(id, req.body);
+    // Lấy thông tin user từ JWT token
+    const user = (req as any).user;
+    const updateData = {
+      ...req.body,
+      REQ_ID: user?.username || null, // Set REQ_ID từ USERNAME của user đăng nhập
+      USER_LOGIN: user?.username || null // Set USER_LOGIN từ USERNAME của user đăng nhập
+    };
+    
+    const product = await service.updateProduct(id, updateData);
     if (!product) {
       return res.status(404).json({ 
         success: false,

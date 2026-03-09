@@ -12,7 +12,14 @@ import * as service from '../services/user-store.service';
  */
 export const assignUserToStore = async (req: Request, res: Response) => {
   try {
-    const userStore = await service.createUserStore(req.body);
+    // Lấy thông tin user từ JWT token
+    const user = (req as any).user;
+    const userStoreData = {
+      ...req.body,
+      CREATED_BY: user?.username || null // Set CREATED_BY từ USERNAME của user đăng nhập
+    };
+    
+    const userStore = await service.createUserStore(userStoreData);
     res.status(201).json({
       success: true,
       message: 'Gán user vào store thành công',
