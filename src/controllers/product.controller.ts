@@ -7,8 +7,12 @@ import * as service from '../services/product.service';
  */
 
 /**
- * Tạo sản phẩm mới
+ * Tạo sản phẩm mới  
  * POST /api/products
+ * 
+ * Body không cần truyền PD_CD - sẽ được tự động tạo theo format PD0001, PD0002, ...
+ * Required: PD_NM, STORE_ID, QUANTITY
+ * Optional: UNIT_CD, DESCRIPTION, IMG_URL
  */
 export const create = async (req: Request, res: Response) => {
   try {
@@ -16,6 +20,7 @@ export const create = async (req: Request, res: Response) => {
     const user = (req as any).user;
     const productData = {
       ...req.body,
+      // Không set PD_CD - sẽ được tự động tạo bởi @BeforeInsert hook 
       REQ_ID: user?.username || null, // Set REQ_ID từ USERNAME của user đăng nhập
       USER_LOGIN: user?.username || null // Set USER_LOGIN từ USERNAME của user đăng nhập
     };
@@ -24,7 +29,8 @@ export const create = async (req: Request, res: Response) => {
     res.status(201).json({
       success: true,
       message: 'Tạo sản phẩm thành công',
-      data: product
+      data: product,
+      note: `Mã sản phẩm được tự động tạo: ${product.PD_CD}`
     });
   } catch (error: any) {
     console.error('Error creating product:', error);

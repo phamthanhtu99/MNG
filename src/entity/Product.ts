@@ -1,4 +1,6 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, BeforeInsert } from 'typeorm';
+import { AppDataSource } from '../data-source';
+import { CodeGeneratorService } from '../services/code-generator.service';
 
 /**
  * Product entity - Bảng sản phẩm (TB_PRODUCT)
@@ -22,7 +24,7 @@ export class Product {
     ID!: number; // ID sản phẩm - Khóa chính bigint
 
     @Column({ type: 'varchar', length: 255, unique: true })
-    PD_CD!: string; // Mã sản phẩm - Unique
+    PD_CD!: string; // Mã sản phẩm - Tự động tạo
 
     @Column({ type: 'varchar', length: 255 })
     PD_NM!: string; // Tên sản phẩm
@@ -62,5 +64,17 @@ export class Product {
         onUpdate: 'CURRENT_TIMESTAMP',
     })
     updatedAt!: Date; // Thời gian cập nhật bản ghi
+
+    /**
+     * Tự động tạo mã PD_CD trước khi insert
+     * Format: PD0001, PD0002, ...
+     */
+    @BeforeInsert()
+    async generateProductCode() {
+        if (!this.PD_CD) {
+            const codeGenerator = new CodeGeneratorService(AppDataSource);
+            this.PD_CD = await codeGenerator.generateProductCode();
+        }
+    }
 
 }

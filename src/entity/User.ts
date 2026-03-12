@@ -1,4 +1,6 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, BeforeInsert } from 'typeorm';
+import { AppDataSource } from '../data-source';
+import { CodeGeneratorService } from '../services/code-generator.service';
 
 /**
  * User entity - Bảng người dùng (TB_USER)
@@ -22,7 +24,7 @@ export class User {
     ID!: number; // ID người dùng - Khóa chính bigint
 
     @Column({ type: 'varchar', length: 255, unique: true })
-    USER_CD!: string; // Mã người dùng - Unique
+    USER_CD!: string; // Mã người dùng - Tự động tạo
 
     @Column({ type: 'varchar', length: 255, unique: true })
     USERNAME!: string; // Tên đăng nhập - Unique
@@ -50,4 +52,26 @@ export class User {
 
     @Column({ type: 'varchar', length: 255, nullable: true })
     CREATED_BY!: string | null; // Người tạo
+
+    @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+    createdAt!: Date; // Thời gian tạo bản ghi
+
+    @Column({
+        type: 'timestamp',
+        default: () => 'CURRENT_TIMESTAMP',
+        onUpdate: 'CURRENT_TIMESTAMP'
+    })
+    updatedAt!: Date; // Thời gian cập nhật bản ghi
+
+    /**
+     * Tự động tạo mã USER_CD trước khi insert
+     * Format: US0001, US0002, ...
+     */
+    @BeforeInsert()
+    async generateUserCode() {
+        if (!this.USER_CD) {
+            const codeGenerator = new CodeGeneratorService(AppDataSource);
+            this.USER_CD = await codeGenerator.generateUserCode();
+        }
+    }
 }

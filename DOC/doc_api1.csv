@@ -61,3 +61,43 @@ CH?C N?NG CRUD PRODUCT,,,,
 ,ROLE_STORE,,varchar,Vai trò t?i store
 ,CREATED_DT,,datetime,Ngày t?o
 ,CREATED_BY,,varchar,Ng??i t?o
+,,,,
+,,,,
+,TB_IMPORT,,,
+,Column,Key,Type,Description
+,ID,PK,bigint,ID
+,IMPORT_CD,,varchar,Mã phi?u nh?p
+,STORE_CD,FK,varchar,Mã store
+,IMPORT_DT,,datetime,Ngày nh?p
+,NOTE,,varchar,Ghi chú
+,CREATED_DT,,datetime,Ngày t?o
+,CREATED_BY,,varchar,Ng??i t?o
+,,,,
+,TB_IMPORT_DETAIL,,,
+,Column,Key,Type,Description
+,ID,PK,bigint,ID
+,IMPORT_ID,FK,bigint,ID phi?u nh?p
+,PD_CD,FK,varchar,Mã s?n ph?m
+,UNIT_CD,FK,varchar,Mã ??n v?
+,QUANTITY,,int,S? l??ng nh?p
+,PRICE,,decimal,Giá nh?p
+,CREATED_DT,,datetime,Ngày t?o
+,,,,
+,TB_EXPORT,,,
+,Column,Key,Type,Description
+,ID,PK,bigint,ID
+,EXPORT_CD,,varchar,Mã phi?u xu?t
+,STORE_CD,FK,varchar,Mã store
+,EXPORT_DT,,datetime,Ngày xu?t
+,NOTE,,varchar,Ghi chú
+,CREATED_DT,,datetime,Ngày t?o
+,CREATED_BY,,varchar,Ng??i t?o
+,,,,
+,TB_EXPORT_DETAIL,,,
+,Column,Key,Type,Description
+,ID,PK,bigint,ID
+,EXPORT_ID,FK,bigint,ID phi?u xu?t
+,PD_CD,FK,varchar,Mã s?n ph?m
+,UNIT_CD,FK,varchar,Mã ??n v?
+,QUANTITY,,int,S? l??ng xu?t
+,CREATED_DT,,datetime,Ngày t?o

@@ -1,4 +1,6 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, BeforeInsert } from 'typeorm';
+import { AppDataSource } from '../data-source';
+import { CodeGeneratorService } from '../services/code-generator.service';
 
 /**
  * Comm entity - Bảng master common (TB_MST_COM)
@@ -19,7 +21,7 @@ export class Comm {
     ID!: number; // ID đơn vị - Khóa chính bigint
 
     @Column({ type: 'varchar', length: 255, unique: true })
-    UN_CD!: string; // Mã đơn vị - Unique
+    UN_CD!: string; // Mã đơn vị - Tự động tạo
 
     @Column({ type: 'varchar', length: 255 })
     UN_NM!: string; // Tên đơn vị
@@ -38,4 +40,26 @@ export class Comm {
 
     @Column({ type: 'varchar', length: 255, nullable: true })
     REQ_ID!: string | null; // ID request
+
+    @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+    createdAt!: Date; // Thời gian tạo bản ghi
+
+    @Column({
+        type: 'timestamp',
+        default: () => 'CURRENT_TIMESTAMP',
+        onUpdate: 'CURRENT_TIMESTAMP'
+    })
+    updatedAt!: Date; // Thời gian cập nhật bản ghi
+
+    /**
+     * Tự động tạo mã UN_CD trước khi insert
+     * Format: UN0001, UN0002, ...
+     */
+    @BeforeInsert()
+    async generateUnitCode() {
+        if (!this.UN_CD) {
+            const codeGenerator = new CodeGeneratorService(AppDataSource);
+            this.UN_CD = await codeGenerator.generateUnitCode();
+        }
+    }
 }

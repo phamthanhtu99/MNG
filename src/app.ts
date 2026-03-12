@@ -7,6 +7,8 @@ import commRoutes from './routes/comm.routes';
 import storeRoutes from './routes/store.routes';
 import userRoutes from './routes/user.routes';
 import userStoreRoutes from './routes/user-store.routes';
+import importRoutes from './routes/import.routes';
+import exportRoutes from './routes/export.routes';
 
 // App configuration and middleware registration
 dotenv.config();
@@ -30,6 +32,8 @@ app.use('/api/comms', commRoutes);
 app.use('/api/stores', storeRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/user-stores', userStoreRoutes);
+app.use('/api/imports', importRoutes);
+app.use('/api/exports', exportRoutes);
 
 // Simple health check for load balancers / container orchestrators
 app.get('/health', (req, res) => res.json({ ok: true }));

@@ -1,4 +1,6 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, BeforeInsert } from 'typeorm';
+import { AppDataSource } from '../data-source';
+import { CodeGeneratorService } from '../services/code-generator.service';
 
 /**
  * Store entity - Bảng cửa hàng (TB_STORE)
@@ -20,7 +22,7 @@ export class Store {
     ID!: number; // ID cửa hàng - Khóa chính bigint
 
     @Column({ type: 'varchar', length: 255, unique: true })
-    STORE_CD!: string; // Mã store - Unique
+    STORE_CD!: string; // Mã store - Tự động tạo
 
     @Column({ type: 'varchar', length: 255 })
     STORE_NM!: string; // Tên store
@@ -42,4 +44,26 @@ export class Store {
 
     @Column({ type: 'varchar', length: 255, nullable: true })
     CREATED_BY!: string | null; // Người tạo
+
+    @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+    createdAt!: Date; // Thời gian tạo bản ghi
+
+    @Column({
+        type: 'timestamp',
+        default: () => 'CURRENT_TIMESTAMP',
+        onUpdate: 'CURRENT_TIMESTAMP'
+    })
+    updatedAt!: Date; // Thời gian cập nhật bản ghi
+
+    /**
+     * Tự động tạo mã STORE_CD trước khi insert
+     * Format: ST0001, ST0002, ...
+     */
+    @BeforeInsert()
+    async generateStoreCode() {
+        if (!this.STORE_CD) {
+            const codeGenerator = new CodeGeneratorService(AppDataSource);
+            this.STORE_CD = await codeGenerator.generateStoreCode();
+        }
+    }
 }
